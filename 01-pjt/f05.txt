@@ -1,0 +1,5 @@
+OpenWeatherMap One Call API를 Python으로 호출해서,
+도시명(Seoul,KR)으로 위도·경도 조회,
+daily 배열에서 내일부터 7일치 예보만 가져오고,
+dt를 YYYY‑MM‑DD 형식으로 변환한 뒤
+낮 기온(섭씨)과 날씨 설명을 출력하는 예제 코드를 보여줘.
