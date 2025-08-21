@@ -1,0 +1,112 @@
+
+<!--
+    <!DOCTYPE html>: HTML 문서의 최상단에 위치해야하는 태그입니다.
+-->
+<!DOCTYPE html>
+
+<!--
+    <html>: HTML 요소를 표현하기 위해 상위에 위치하는 root 태그입니다.
+    lang: HTML 문서의 언어가 어떤 언어로 이루어져 있는지 알려주는 속성입니다.
+-->
+<html lang="en">
+
+<!--
+    <head>: 컴퓨터가 읽을 수 있는 정보를 기록하는 태그입니다. (메타 데이터라고 말합니다.)
+            title, scripts, style sheet가 작성될 수 있습니다.
+-->
+<head>
+    <!--
+        <meta>: <base>, <link>, <script>, <style>, <title>로 표현할 수 없는 메타 데이터를 표현하는 태그입니다.
+        charset: HTML 문서의 인코딩을 설정하는 속성입니다.
+        http-equiv: HTTP 헤더에 정보를 제공하는 속성입니다.
+            X-UA-Compatible: content의 값은 IE=Edge 여야만 합니다.
+        viewport: 웹 콘텐츠를 볼 수 있는 창의 크기를 말합니다.
+    -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--
+        <title>: 브라우저의 타이틀 바나 페이지 탭에 표시할 수 있는 태그입니다.
+    -->
+    <title>Document</title>
+</head>
+
+<!--
+    <body>: HTML 문서의 콘텐츠를 표현하는 태그이며, 오직 한 번만 작성될 수 있습니다.
+-->
+<body>
+
+    <!--
+        한글, 워드 문서를 작성할 때에 큰 제목을 작성하는 것 처럼
+        HTML 문서에서도 제목을 표현할 수 있는 태그가 있습니다.
+
+        <h1> ~ <h6>: 6 단계로 표현할 수 있는 제목 태그입니다.
+    -->
+    
+    <!--
+        Q. 제목을 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+    <h1>제목 1</h1>
+    <h2>제목 2</h2>
+    <h3>제목 3</h3>
+    <h4>제목 4</h4>
+    <h5>제목 5</h5>
+    <h6>제목 6</h6>
+
+
+    <!--
+        Q. 문단을 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+
+    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+    <p> Voluptatem, labore quibusdam exercitationem tenetur tempora recusandae </p>
+    <p> ipsam minima obcaecati dolores sint autem incidunt maxime excepturi odit facilis harum amet id voluptas. </p>
+    
+
+    <!--
+        Q. 문장을 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+    <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. </span>
+    <span> Voluptatem, labore quibusdam exercitationem tenetur tempora recusandae </span>
+    <span> ipsam minima obcaecati dolores sint autem incidunt maxime excepturi odit facilis harum amet id voluptas. </span>
+
+
+
+    <!--
+        Q. 문단 내에 줄바꿈을 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <br/>
+        Voluptatem, labore quibusdam exercitationem tenetur tempora recusandae <br/>
+        ipsam minima obcaecati dolores sint autem incidunt maxime excepturi odit facilis harum amet id voluptas. <br/>
+    <p>
+
+
+
+    <!-- 
+        Q. 수평 가로선을 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    <hr>
+    Voluptatem, labore quibusdam exercitationem tenetur tempora recusandae
+    <hr>
+    ipsam minima obcaecati dolores sint autem incidunt maxime excepturi odit facilis harum amet id voluptas.
+
+
+    <!--
+        Q. 작성한 그대로 표현할 수 있는 태그를 작성해 봅시다.
+    -->
+<pre>
+Lorem ipsum dolor sit amet 
+consectetur adipisicing elit. 
+Voluptatem, labore qui
+busdam exercitationem tenetur               tempora recusandae 
+ipsam minima obcaecati dolores sin
+t autem incidunt maxime excepturi odit facilis harum                    amet id voluptas.
+</pre>
+
+
+
+</body>
+</html>
