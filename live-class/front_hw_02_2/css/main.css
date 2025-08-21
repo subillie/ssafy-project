@@ -1,0 +1,158 @@
+/* 모든 요소의 css 기본 설정 초기화 하기 위한 선택자 */
+* {
+  margin: 0;
+  padding: 0;
+  /* 여백 까지 박스 사이즈에 포함 하기  */
+  box-sizing: border-box;
+  /* 리스트 요소의 스타일을 없앤다. (기본 : 점) */
+  list-style: none;
+}
+
+a {
+  /* 앵커 태그의 text 스타일을 없앤다. */
+  text-decoration: none;
+  /* 글자색 설정 */
+  color: whitesmoke;
+}
+
+/* header 태그 안에 CSS 속성 */
+header {
+  height: 70px;
+  /* 배경색 설정 */
+  background-color: #53e3a6;
+  /* 글자색 설정 */
+  color: white;
+  line-height: 70px;
+  padding: 0px 30px;
+}
+
+/* header의 내용에 들어갈 클래스 선택자. html 파일 참고 */
+.nav-container {
+  /* 수평 요소 동적 크기 구성을 위한 css 속성 */
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-menu {
+  margin-right: 10px;
+}
+
+.content-user-list h1 {
+  text-align: center;
+}
+
+.login-page {
+  width: 360px;
+  padding: 7% 0 8%;
+  margin: auto;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+/* form 클래스 하위의 input 요소 css 설정을 위한 선택자 */
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* form 클래스 하위의 button 요소 css 설정을 위한 선택자 */
+.form button {
+  margin: 0 0 15px;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #53e3a6;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+/* form 클래스 하위의 button 의 상태에 따른 css 설정을 위한 선택자 : 마우스 포인터가 해당 요소에 들어오거나 나간 상태, 활성화 된 상태, 포커싱된 상태 */
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: #50a3a2;
+}
+
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+/* from 클래스 하위 message 클래스 하위 앵커 태그 요소 css 선택자 */
+.form .message a {
+  color: green;
+  text-decoration: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin: 0 auto;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 70px;
+}
+
+.content-user-list-ul {
+  display: flex;
+  /* 안의 내용이 밖으로 빠져나가는것을 방지 */
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.list-item {
+  margin: 10px;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* footer 태그 안에 CSS 속성 */
+footer {
+  /* 맨 아래 고정을 위한 설정 */
+  position: relative;
+  bottom: 0;
+  /* 배경색과 글자색 */
+  background-color: #53e3a6;
+  color: white;
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+}
+
+.footer-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-list a {
+  margin: 0px 10px;
+}
