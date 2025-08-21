@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        
+        /*
+            Q. problem1 클래스의 텍스트를 검정색으로 변경하고, 밑줄을 제거해 봅시다.
+        */
+        .problem1 {
+            color: black;
+            text-decoration: none;
+        }
+
+        /*
+            Q. problem2 클래스의 텍스트를 가운데 정렬(수평 정렬) 해봅시다.
+        */
+        .problem2 {
+            text-align: center;
+        }
+
+        /*
+            Q. problem3 클래스를 너비와 높이를 100px, 테두리는 3px, 점 모양, 파란색으로 적용해 봅시다.
+        */
+        .problem3 {
+            width: 100px;
+            height: 100px;
+            border: 3px dotted blue;
+        }
+
+        /*
+            Q. problem4 클래스를 
+            너비는 브라우저 크기 전체 만큼 (100%), 
+            높이는 50px, 
+            bottom, left margin을 0px,
+            텍스트는 가운데 정렬 (수평 정렬),
+            배경 색은 베이지 색상으로 적용해 봅시다.
+        */
+        .problem4 {
+            width: 100%;
+            height: 50px;
+            position: fixed;
+
+            bottom: 0px;
+            margin-left: 0px;
+
+            text-align: center;
+            background-color: beige;
+        }
+
+    </style>
+
+</head>
+<body>
+    <h2>Problem 1</h2>
+    <a class="problem1" href="https://edu.ssafy.com">에듀싸피로 이동하기</a>
+
+    <hr>
+
+    <h2>Problem 2</h2>
+    <h1 class="problem2">이 텍스트는 가운데 정렬이 됩니다.</h1>
+
+    <hr>
+
+    <h2>Problem 3</h2>
+    <div class="problem3">box</div>
+
+    <hr>
+
+    <h2>Problem 4</h2>
+    <div class="problem4">&copy;SSAFY Education</div>
+</body>
+</html>
