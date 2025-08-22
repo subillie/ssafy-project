@@ -18,6 +18,9 @@ CSS 속성 연습하기
 [25.08.21] **[CSS 과제 lv2](./live-class/front_hw_02_2/)**
 사용자관리 화면 CSS 적용  
 
+[25.08.22] **[JS 실습 lv1](./live-class/front_hw_03_2/)**
+변수 선언, 조건문, 반복문 연습하기 
+
 ## 관통 프로젝트
 
 [25.07.25] **[Python Project 01](./01-pjt)**
