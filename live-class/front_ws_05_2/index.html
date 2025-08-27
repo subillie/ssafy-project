@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>영화정보사이트</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <!-- Header Start -->
+    <header>
+      <nav class="header-nav">
+        <div>
+          <a href="#">영화관리</a>
+        </div>
+        <div>
+          <form action="#">
+            <input type="text" placeholder="제목을 입력하세요." />
+            <input type="submit" value="검색" />
+          </form>
+        </div>
+        <div>
+          <a href="#">로그인</a>
+          <a href="#">로그아웃</a>
+          <a href="#">회원가입</a>
+          <a href="#">게시판</a>
+          <a href="#">마이페이지</a>
+        </div>
+      </nav>
+    </header>
+    <!-- Header End -->
+    <!-- Main Start -->
+    <main class="content">
+      <!-- 중앙 영화목록 Start -->
+      <section class="content-movie-list">
+        <h2>영화목록</h2>
+        <br />
+        <ul class="content-movie-list-ul">
+          <!-- ajax 를 통해 json 파일에 있는 movie data 가져와서 동적으로 생성-->
+        </ul>
+      </section>
+      <!-- 중앙 영화목록 End -->
+      <!-- 오른쪽 찜리스트 Strat -->
+      <aside class="content-movie-like">
+        <h3>찜리스트</h3>
+        <div id="like-moive-empty">아직 찜한 영화가 없습니다....</div>
+        <ul id="like-movie-list"></ul>
+      </aside>
+      <!-- 오른쪽 찜리스트 End -->
+    </main>
+    <!-- Main End -->
+    <!-- Footer Start -->
+    <footer>
+      <ul class="footer-list">
+        <li><a href="#">개인정보처리방침</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">오시는길</a></li>
+        <li>&copy; SSAFY OO_O반_김싸피</li>
+      </ul>
+    </footer>
+    <!-- Footer End -->
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
