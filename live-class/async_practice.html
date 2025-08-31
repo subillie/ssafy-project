@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 비동기 통신 실전 예제</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 기본 스타일 */
+        body {
+            background-color: #f0f2f5;
+        }
+        .btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        #result-container {
+            font-family: 'D2Coding', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body class="p-8 font-sans">
+
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-center mb-2 text-gray-800">자바스크립트 비동기 통신 실전 예제</h1>
+        <p class="text-center text-gray-500 mb-8">AJAX, Promise, Fetch의 작동 방식을 비교하며 이해해봅시다.</p>
+
+        <!-- 버튼 영역 -->
+        <div class="grid md:grid-cols-3 gap-4 mb-8">
+            <button id="ajax-btn" class="btn w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg">1. AJAX (XMLHttpRequest)로 데이터 불러오기</button>
+            <button id="promise-btn" class="btn w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg">2. Promise 예제 실행하기</button>
+            <button id="fetch-btn" class="btn w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg">3. Fetch API로 데이터 불러오기</button>
+        </div>
+
+        <!-- 결과 출력 영역 -->
+        <div class="bg-gray-900 text-white rounded-lg p-6 min-h-[200px]">
+            <h2 class="text-lg font-semibold mb-2 border-b border-gray-700 pb-2">결과 출력</h2>
+            <pre id="result-container">버튼을 눌러주세요...</pre>
+        </div>
+    </div>
+
+    <script>
+        const resultContainer = document.getElementById('result-container');
+        // 데이터를 가져올 API 주소 (JSONPlaceholder라는 무료 테스트 API)
+        const apiUrl = 'https://jsonplaceholder.typicode.com/users/1';
+
+        // --- 1. AJAX (XMLHttpRequest) ---
+        // 가장 전통적인 비동기 통신 방식입니다. 코드가 다소 복잡합니다.
+        document.getElementById('ajax-btn').addEventListener('click', () => {
+            resultContainer.textContent = 'AJAX로 데이터를 불러오는 중...';
+
+            // 1. XMLHttpRequest 객체 생성
+            const xhr = new XMLHttpRequest();
+
+            // 2. 요청 초기화 (HTTP 메서드, URL, 비동기 여부)
+            xhr.open('GET', apiUrl, true);
+
+            // 3. 요청 상태가 변할 때마다 호출될 함수 정의
+            xhr.onreadystatechange = function () {
+                // readyState 4: 요청 완료, status 200: 성공
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 서버에서 받은 텍스트(JSON)를 JavaScript 객체로 변환
+                    const data = JSON.parse(xhr.responseText);
+                    resultContainer.textContent = JSON.stringify(data, null, 2); // 예쁘게 출력
+                } else if (xhr.readyState === 4) {
+                    // 요청은 완료되었으나 에러가 발생한 경우
+                    resultContainer.textContent = `에러 발생! Status: ${xhr.status}`;
+                }
+            };
+
+            // 4. 요청 전송
+            xhr.send();
+        });
+
+        // --- 2. Promise ---
+        // 비동기 작업의 '성공' 또는 '실패' 상태를 나타내는 객체입니다.
+        // AJAX의 콜백 지옥(Callback Hell)을 해결하기 위해 등장했습니다.
+        document.getElementById('promise-btn').addEventListener('click', () => {
+            resultContainer.textContent = 'Promise를 실행하는 중... (2초 후 결과 표시)';
+
+            // 1. Promise 객체 생성
+            // new Promise는 바로 실행되며, 비동기 작업(setTimeout)을 수행합니다.
+            const myPromise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // 50% 확률로 성공 또는 실패를 시뮬레이션
+                    if (Math.random() > 0.5) {
+                        // 작업 성공 시 resolve 호출
+                        resolve({ status: '성공', message: '비동기 작업이 성공적으로 완료되었습니다.' });
+                    } else {
+                        // 작업 실패 시 reject 호출
+                        reject({ status: '실패', message: '오류가 발생했습니다.' });
+                    }
+                }, 2000);
+            });
+
+            // 2. Promise 결과 처리
+            myPromise
+                .then(successResponse => {
+                    // resolve가 호출되었을 때 실행 (성공)
+                    resultContainer.textContent = `[성공] ${successResponse.message}`;
+                    resultContainer.style.color = '#4ade80'; // Green
+                })
+                .catch(errorResponse => {
+                    // reject가 호출되었을 때 실행 (실패)
+                    resultContainer.textContent = `[실패] ${errorResponse.message}`;
+                    resultContainer.style.color = '#f87171'; // Red
+                })
+                .finally(() => {
+                    // 성공/실패 여부와 관계없이 항상 마지막에 실행
+                    console.log('Promise 작업 종료.');
+                    // 2초 후에 원래 색으로 복원
+                    setTimeout(() => { resultContainer.style.color = 'white'; }, 2000);
+                });
+        });
+
+        // --- 3. Fetch API ---
+        // Promise를 기반으로 만들어진, 현재 가장 많이 사용되는 현대적인 비동기 통신 API입니다.
+        // 코드가 매우 간결하고 직관적입니다.
+        document.getElementById('fetch-btn').addEventListener('click', () => {
+            resultContainer.textContent = 'Fetch로 데이터를 불러오는 중...';
+
+            // 1. fetch 함수 호출 (URL 전달)
+            // fetch는 Promise를 반환합니다.
+            fetch(apiUrl)
+                .then(response => {
+                    // 첫 번째 then에서는 HTTP 응답(response)을 받습니다.
+                    // 응답이 성공적이지 않으면(예: 404, 500 에러) 에러를 발생시킵니다.
+                    if (!response.ok) {
+                        throw new Error(`HTTP 에러! Status: ${response.status}`);
+                    }
+                    // 응답 본문을 JSON으로 파싱하는 작업도 Promise를 반환합니다.
+                    return response.json();
+                })
+                .then(data => {
+                    // 두 번째 then에서 파싱된 실제 데이터(data)를 받습니다.
+                    resultContainer.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // 네트워크 오류나 위의 throw new Error()에서 발생한 에러를 여기서 잡습니다.
+                    resultContainer.textContent = `데이터를 불러오는 데 실패했습니다: ${error.message}`;
+                });
+        });
+    </script>
+
+</body>
+</html>
