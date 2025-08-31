@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!-- lang="ko"는 이 문서의 주 사용 언어가 한국어임을 명시합니다. -->
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"> <!-- 한글 깨짐 방지를 위한 문자 인코딩 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 반응형 웹을 위한 뷰포트 설정 -->
+    <title>HTML & CSS 실전 예제</title>
+    
+    <!-- 내부 스타일 시트(Internal Style Sheet): HTML 파일 내에 CSS를 작성하는 방식 -->
+    <style>
+        /* CSS 주석입니다. */
+
+        /* 전체 선택자(*): 모든 요소에 공통 스타일을 적용합니다. */
+        /* box-sizing: border-box;는 padding과 border를 너비/높이에 포함시켜 레이아웃 계산을 쉽게 해줍니다. (강력 추천!) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 유형(태그) 선택자: body 태그 전체의 기본 글꼴과 배경색을 지정합니다. */
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* --- 레이아웃 & 시맨틱 태그 스타일 --- */
+
+        /* 클래스 선택자(.): .container 클래스를 가진 요소의 스타일을 지정합니다. */
+        /* 박스 모델: 최대 너비(max-width)와 자동 마진(margin)으로 페이지를 중앙 정렬합니다. */
+        .container {
+            max-width: 1000px;
+            margin: 20px auto; /* 위아래 20px, 좌우 auto(자동 중앙 정렬) */
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+        }
+
+        /* 시맨틱 태그 header, footer에 공통 스타일 적용 (그룹 선택자) */
+        header, footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* --- Flexbox를 이용한 내비게이션 바 --- */
+        /* 자손 선택자: nav 태그 안의 ul 태그를 선택합니다. */
+        nav ul {
+            list-style-type: none; /* li 태그의 기본 점 제거 */
+            display: flex; /* Flexbox 레이아웃 시작! */
+            justify-content: center; /* 주축(가로) 방향 중앙 정렬 */
+            gap: 20px; /* 아이템 사이의 간격 */
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none; /* 링크의 밑줄 제거 */
+            font-weight: bold;
+        }
+        
+        /* 가상 클래스 선택자: a 태그에 마우스를 올렸을 때(hover) 스타일 변경 */
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- 콘텐츠 섹션 스타일 --- */
+        
+        /* ID 선택자(#): #main-content ID를 가진 요소를 선택합니다. */
+        #main-content {
+            margin-bottom: 30px;
+        }
+        
+        .post {
+            background-color: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative; /* 자식 요소의 absolute 포지션 기준이 됨 */
+        }
+        
+        /* position 속성 예제: '추천' 뱃지 */
+        .badge {
+            position: absolute; /* 부모(.post)를 기준으로 위치 지정 */
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+        }
+
+        /* --- 테이블 스타일 --- */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* 테두리 한 줄로 합치기 */
+            margin-bottom: 20px;
+        }
+        
+        /* 그룹 선택자: th, td에 공통 스타일 적용 */
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        /* --- 폼(Form) 스타일 --- */
+        /* 자식 선택자(>): form 바로 아래 자식인 div에만 스타일 적용 */
+        form > div {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block; /* label을 블록 요소로 만들어 input과 세로로 배치 */
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        /* 속성 선택자: type이 text 또는 email인 input 태그를 선택 */
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        /* 인접 형제 결합자(+): 체크박스 바로 다음에 오는 label의 스타일 변경 */
+        input[type="checkbox"] + label {
+            font-weight: normal;
+            display: inline-block;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+        }
+        
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- 시맨틱 태그 <header>로 페이지의 머리말을 정의합니다. -->
+    <header>
+        <h1>HTML & CSS 실전 예제 페이지</h1>
+        <!-- 시맨틱 태그 <nav>로 내비게이션 메뉴를 정의합니다. -->
+        <nav>
+            <ul>
+                <li><a href="#main-content">콘텐츠</a></li>
+                <li><a href="#feature-table">기능 비교</a></li>
+                <li><a href="#contact-form">문의하기</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 클래스를 이용해 페이지의 주요 콘텐츠 영역을 감쌉니다. -->
+    <div class="container">
+        <!-- 시맨틱 태그 <main>으로 페이지의 핵심 콘텐츠를 나타냅니다. -->
+        <main>
+            <!-- ID를 이용해 특정 섹션을 명시합니다. -->
+            <section id="main-content">
+                <h2>주요 콘텐츠</h2>
+                <!-- 시맨틱 태그 <article>로 독립적인 게시글을 나타냅니다. -->
+                <article class="post">
+                    <!-- position: absolute 예제를 위한 뱃지 -->
+                    <span class="badge">추천</span>
+                    <h3>블록(Block) 요소와 인라인(Inline) 요소</h3>
+                    <p>
+                        블록 요소(div, p, h1 등)는 한 줄을 모두 차지하며, <strong>인라인 요소(span, a, strong 등)</strong>는 콘텐츠 크기만큼만 공간을 차지합니다.
+                    </p>
+                </article>
+                <article class="post">
+                    <h3>박스 모델의 이해</h3>
+                    <p>모든 HTML 요소는 Margin, Border, Padding, Content로 구성된 사각형 박스입니다. `box-sizing: border-box;`를 사용하면 레이아웃 설계가 편리해집니다.</p>
+                </article>
+            </section>
+            
+            <section id="feature-table">
+                <h2>기능 비교 테이블</h2>
+                <!-- <table>: 표를 만드는 태그입니다. -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>HTML</th>
+                            <th>CSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>역할</td>
+                            <td>구조와 콘텐츠 정의</td>
+                            <td>디자인과 레이아웃</td>
+                        </tr>
+                        <tr>
+                            <td>예시</td>
+                            <td>&lt;div&gt;, &lt;p&gt;, &lt;img&gt;</td>
+                            <td>color, font-size, margin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section id="contact-form">
+                <h2>문의하기 폼(Form)</h2>
+                <!-- <form>: 사용자 입력을 받는 양식입니다. action 속성으로 데이터를 보낼 서버 주소를 지정합니다. -->
+                <form action="#" method="post">
+                    <div>
+                        <!-- <label>의 for 속성값과 <input>의 id 속성값을 일치시켜 연결합니다. -->
+                        <label for="user-name">이름</label>
+                        <input type="text" id="user-name" name="userName" placeholder="이름을 입력하세요" required>
+                    </div>
+                    <div>
+                        <label for="user-email">이메일</label>
+                        <input type="email" id="user-email" name="userEmail" placeholder="이메일 주소를 입력하세요" required>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="subscribe" name="subscribe">
+                        <label for="subscribe">뉴스레터 구독</label>
+                    </div>
+                    <!-- <button> 태그로 폼 제출 버튼을 만듭니다. -->
+                    <button type="submit">제출하기</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- 시맨틱 태그 <footer>로 페이지의 꼬리말을 정의합니다. -->
+    <footer>
+        <p>&copy; 2025 SSAFY. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
