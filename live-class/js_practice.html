@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 실전 예제 코드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretard/dist/web/static/pretard.css');
+        .output {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'D2Coding', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            min-height: 50px;
+        }
+        .btn {
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-4xl font-extrabold text-center mb-4 text-slate-800">JavaScript 종합 실전 예제</h1>
+        <p class="text-center text-slate-500 mb-10">아래 버튼들을 클릭하며 각 기능의 작동 원리를 직접 확인해보세요.</p>
+
+        <!-- 섹션: 변수, 데이터 타입, 함수 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 border-b-2 border-indigo-500 pb-2 text-slate-700">1. 변수, 함수, ES6 문법</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <button id="variable-test-btn" class="btn w-full bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md mb-2">변수(var, let, const) 특징 확인</button>
+                    <div id="variable-output" class="output"></div>
+                </div>
+                <div>
+                    <button id="es6-test-btn" class="btn w-full bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md mb-2">ES6 문법 (화살표 함수, 구조분해) 확인</button>
+                    <div id="es6-output" class="output"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 섹션: DOM 조작 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 border-b-2 border-teal-500 pb-2 text-slate-700">2. DOM (문서 객체 모델) 조작</h2>
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button id="dom-create-btn" class="btn flex-1 bg-teal-500 text-white font-semibold py-2 px-4 rounded-md">요소 생성 & 추가</button>
+                <button id="dom-attr-btn" class="btn flex-1 bg-teal-500 text-white font-semibold py-2 px-4 rounded-md">속성 변경</button>
+                <button id="dom-text-btn" class="btn flex-1 bg-teal-500 text-white font-semibold py-2 px-4 rounded-md">내용 변경 (innerHTML)</button>
+                <button id="dom-remove-btn" class="btn flex-1 bg-teal-500 text-white font-semibold py-2 px-4 rounded-md">요소 삭제</button>
+            </div>
+            <div id="dom-area" class="p-4 border-2 border-dashed border-teal-300 rounded-lg min-h-[100px] text-center text-slate-500">
+                여기에 DOM 조작 결과가 표시됩니다.
+            </div>
+        </section>
+
+        <!-- 섹션: 이벤트 처리 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 border-b-2 border-amber-500 pb-2 text-slate-700">3. 이벤트(Event) 처리</h2>
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <div class="text-center">
+                    <button id="event-listener-btn" class="btn bg-amber-500 text-white font-semibold py-2 px-4 rounded-md">addEventListener 테스트 버튼</button>
+                    <a href="https://www.ssafy.com" id="prevent-link" class="block mt-4 text-blue-600 hover:underline">preventDefault 테스트 링크 (클릭해도 이동 안 함)</a>
+                </div>
+                <div id="event-output" class="output"></div>
+            </div>
+        </section>
+
+        <!-- 섹션: Web Storage & JSON -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4 border-b-2 border-rose-500 pb-2 text-slate-700">4. Web Storage & JSON</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- 컨트롤 패널 -->
+                <div>
+                    <div class="mb-4">
+                        <label for="storage-key" class="block font-medium text-slate-600 mb-1">Key:</label>
+                        <input type="text" id="storage-key" class="w-full p-2 border border-slate-300 rounded-md" value="userInfo">
+                    </div>
+                    <div class="mb-4">
+                        <label for="storage-value" class="block font-medium text-slate-600 mb-1">Value (Name):</label>
+                        <input type="text" id="storage-value" class="w-full p-2 border border-slate-300 rounded-md" value="김싸피">
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="local-save-btn" class="btn flex-1 bg-rose-500 text-white font-semibold py-2 px-4 rounded-md">localStorage 저장</button>
+                        <button id="session-save-btn" class="btn flex-1 bg-rose-500 text-white font-semibold py-2 px-4 rounded-md">sessionStorage 저장</button>
+                        <button id="storage-clear-btn" class="btn flex-1 bg-slate-600 text-white font-semibold py-2 px-4 rounded-md">모두 삭제</button>
+                    </div>
+                </div>
+                <!-- 결과 출력 -->
+                <div>
+                    <h3 class="font-bold text-slate-700">localStorage:</h3>
+                    <div id="local-storage-output" class="output mb-2"></div>
+                    <h3 class="font-bold text-slate-700">sessionStorage:</h3>
+                    <div id="session-storage-output" class="output"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- 1. 변수, 함수, ES6 문법 ---
+        const variableBtn = document.getElementById('variable-test-btn');
+        const variableOutput = document.getElementById('variable-output');
+        variableBtn.addEventListener('click', () => {
+            let outputText = '';
+
+            // var의 함수 스코프와 호이스팅
+            outputText += '--- var 테스트 ---\n';
+            outputText += `var로 선언 전 name: ${name}\n`; // 호이스팅으로 인해 undefined 출력
+            var name = 'ssafy';
+            outputText += `var로 선언 후 name: ${name}\n\n`;
+
+            // let의 블록 스코프
+            outputText += '--- let 테스트 ---\n';
+            let age = 30;
+            if (true) {
+                let age = 20; // 블록 스코프이므로 바깥 age와 다름
+                outputText += `if 블록 안쪽 age: ${age}\n`;
+            }
+            outputText += `if 블록 바깥쪽 age: ${age}\n\n`;
+
+            // const의 재할당 불가
+            outputText += '--- const 테스트 ---\n';
+            const GENDER = 'Male';
+            outputText += `const GENDER: ${GENDER}\n`;
+            // GENDER = 'Female'; // 이 줄의 주석을 풀면 TypeError 발생
+            outputText += `(주석 처리된 재할당 코드 실행 시 TypeError 발생)`;
+
+            variableOutput.textContent = outputText;
+        });
+
+        const es6Btn = document.getElementById('es6-test-btn');
+        const es6Output = document.getElementById('es6-output');
+        es6Btn.addEventListener('click', () => {
+            let outputText = '';
+
+            // 화살표 함수
+            const add = (a, b) => a + b;
+            outputText += `화살표 함수 결과: 5 + 3 = ${add(5, 3)}\n\n`;
+
+            // 구조 분해 할당 (배열)
+            const fruits = ['사과', '바나나', '딸기'];
+            const [apple, ...restFruits] = fruits;
+            outputText += '--- 배열 구조 분해 ---\n';
+            outputText += `첫 번째 과일: ${apple}\n`;
+            outputText += `나머지 과일: [${restFruits.join(', ')}]\n\n`;
+
+            // 구조 분해 할당 (객체)
+            const user = { id: 'ssafy123', email: 'ssafy@ssafy.com' };
+            const { id, email } = user;
+            outputText += '--- 객체 구조 분해 ---\n';
+            outputText += `사용자 ID: ${id}\n`;
+            outputText += `사용자 이메일: ${email}`;
+
+            es6Output.textContent = outputText;
+        });
+
+
+        // --- 2. DOM (문서 객체 모델) 조작 ---
+        const domArea = document.getElementById('dom-area');
+        const domCreateBtn = document.getElementById('dom-create-btn');
+        const domAttrBtn = document.getElementById('dom-attr-btn');
+        const domTextBtn = document.getElementById('dom-text-btn');
+        const domRemoveBtn = document.getElementById('dom-remove-btn');
+
+        // 요소 생성 & 추가 (createElement, append)
+        domCreateBtn.addEventListener('click', () => {
+            domArea.innerHTML = ''; // 기존 내용 초기화
+            const newP = document.createElement('p'); // p 태그 생성
+            newP.textContent = '새롭게 생성된 문단입니다.';
+            newP.id = 'new-paragraph';
+            domArea.append(newP); // 생성한 p 태그를 domArea에 추가
+        });
+
+        // 속성 변경 (setAttribute, getAttribute)
+        domAttrBtn.addEventListener('click', () => {
+            const p = domArea.querySelector('#new-paragraph');
+            if (p) {
+                p.setAttribute('style', 'color: teal; font-weight: bold;');
+                alert(`'new-paragraph'의 style 속성이 변경되었습니다.`);
+            } else {
+                alert('먼저 "요소 생성 & 추가" 버튼을 눌러주세요.');
+            }
+        });
+
+        // 내용 변경 (innerHTML)
+        domTextBtn.addEventListener('click', () => {
+            domArea.innerHTML = '<strong>innerHTML</strong>을 사용해 <strong>굵은 글씨</strong>와 <img src="https://placehold.co/100x50?text=Image" alt="예시이미지" style="display:inline-block; vertical-align:middle;"> 태그를 삽입했습니다.';
+        });
+
+        // 요소 삭제 (remove)
+        domRemoveBtn.addEventListener('click', () => {
+            if (domArea.firstChild) {
+                domArea.firstChild.remove();
+                alert('첫 번째 자식 요소가 삭제되었습니다.');
+            } else {
+                alert('삭제할 요소가 없습니다.');
+            }
+        });
+
+
+        // --- 3. 이벤트(Event) 처리 ---
+        const eventListenerBtn = document.getElementById('event-listener-btn');
+        const eventOutput = document.getElementById('event-output');
+        const preventLink = document.getElementById('prevent-link');
+
+        // addEventListener
+        eventListenerBtn.addEventListener('click', (event) => {
+            // event 객체: 이벤트에 대한 다양한 정보를 담고 있음
+            let outputText = `이벤트 타입: ${event.type}\n`;
+            outputText += `클릭된 요소: ${event.target.tagName}\n`;
+            outputText += `화면 X 좌표: ${event.clientX}px\n`;
+            outputText += `화면 Y 좌표: ${event.clientY}px`;
+            eventOutput.textContent = outputText;
+        });
+
+        // preventDefault
+        preventLink.addEventListener('click', (event) => {
+            event.preventDefault(); // a 태그의 기본 동작(페이지 이동)을 막음
+            eventOutput.textContent = `'${preventLink.textContent}' 링크의 기본 동작(이동)을 막았습니다.`;
+        });
+
+
+        // --- 4. Web Storage & JSON ---
+        const localSaveBtn = document.getElementById('local-save-btn');
+        const sessionSaveBtn = document.getElementById('session-save-btn');
+        const storageClearBtn = document.getElementById('storage-clear-btn');
+        const keyInput = document.getElementById('storage-key');
+        const valueInput = document.getElementById('storage-value');
+        const localOutput = document.getElementById('local-storage-output');
+        const sessionOutput = document.getElementById('session-storage-output');
+        
+        const updateStorageDisplay = () => {
+            // localStorage 내용 표시
+            const localDataRaw = localStorage.getItem(keyInput.value);
+            if (localDataRaw) {
+                const localDataObj = JSON.parse(localDataRaw); // JSON -> Object
+                localOutput.textContent = JSON.stringify(localDataObj, null, 2);
+            } else {
+                localOutput.textContent = '저장된 데이터 없음';
+            }
+            
+            // sessionStorage 내용 표시
+            const sessionDataRaw = sessionStorage.getItem(keyInput.value);
+            if (sessionDataRaw) {
+                const sessionDataObj = JSON.parse(sessionDataRaw); // JSON -> Object
+                sessionOutput.textContent = JSON.stringify(sessionDataObj, null, 2);
+            } else {
+                sessionOutput.textContent = '저장된 데이터 없음';
+            }
+        };
+
+        const createDataObject = () => {
+            return {
+                name: valueInput.value,
+                saveTime: new Date().toLocaleTimeString()
+            };
+        };
+
+        // localStorage 저장
+        localSaveBtn.addEventListener('click', () => {
+            const dataObject = createDataObject();
+            // 객체를 JSON 문자열로 변환하여 저장
+            localStorage.setItem(keyInput.value, JSON.stringify(dataObject));
+            updateStorageDisplay();
+        });
+        
+        // sessionStorage 저장
+        sessionSaveBtn.addEventListener('click', () => {
+            const dataObject = createDataObject();
+            sessionStorage.setItem(keyInput.value, JSON.stringify(dataObject));
+            updateStorageDisplay();
+        });
+
+        // 모두 삭제
+        storageClearBtn.addEventListener('click', () => {
+            localStorage.removeItem(keyInput.value);
+            sessionStorage.removeItem(keyInput.value);
+            updateStorageDisplay();
+        });
+
+        // 페이지 로드 시 저장된 내용 표시
+        updateStorageDisplay();
+
+    </script>
+</body>
+</html>
