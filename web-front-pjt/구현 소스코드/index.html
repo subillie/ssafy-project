@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>냠냠코치</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+    .hidden { display: none; }
+    .auth-container, .profile-container { max-width: 520px; margin: 0 auto; }
+    #food-search-results { cursor: pointer; }
+    .search-result-item { user-select: none; }
+    .search-result-item:hover { background: #f0f2f5; }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar" style="display: none;">
+    <div class="container">
+        <a class="navbar-brand" href="#">🥗 냠냠코치</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-diet">홈</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-meals">식단</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-analysis">분석</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-profile">프로필</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" id="nav-social">팔로우</a></li>
+            </ul>
+            <div class="d-flex">
+                <span class="navbar-text me-3" id="welcome-message"></span>
+                <button class="btn btn-light" id="logout-btn">로그아웃</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-4">
+    <!-- 로그인 -->
+    <div id="login-view">
+        <div class="auth-container">
+        <h2 class="text-center mb-4">로그인</h2>
+        <form id="login-form">
+            <div class="mb-3"><input type="text" id="login-username" class="form-control" placeholder="사용자 아이디" required></div>
+            <div class="mb-3"><input type="password" id="login-password" class="form-control" placeholder="비밀번호" required></div>
+            <button type="submit" class="btn btn-primary w-100">로그인</button>
+        </form>
+        <p class="mt-3 text-center">계정이 없으신가요? <a href="#" id="show-signup-link">회원가입</a></p>
+        </div>
+    </div>
+
+    <!-- 회원가입 -->
+    <div id="signup-view" class="hidden">
+        <div class="auth-container">
+        <h2 class="text-center mb-4">회원가입</h2>
+        <form id="signup-form">
+            <div class="mb-3"><input type="text" id="signup-username" class="form-control" placeholder="사용자 아이디" required></div>
+            <div class="mb-3"><input type="password" id="signup-password" class="form-control" placeholder="비밀번호" required></div>
+            <button type="submit" class="btn btn-primary w-100">가입하기</button>
+        </form>
+        <p class="mt-3 text-center">이미 계정이 있으신가요? <a href="#" id="show-login-link">로그인</a></p>
+        </div>
+    </div>
+
+    <!-- 홈(식단 대시보드만 유지) -->
+    <div id="diet-view" class="hidden">
+        <div class="row g-5">
+        <!-- ⛳️ 여기서 '식단 기록하기' 섹션을 제거하고, 대시보드만 남겨둠 -->
+        <div class="col-lg-5">
+            <section class="card">
+            <div class="card-header"><h3>오늘의 영양 정보 분석</h3></div>
+            <div id="nutrition-summary" class="card-body">
+                <p><strong>총 칼로리:</strong> <span id="total-calories">0</span> kcal</p>
+                <p><strong>총 탄수화물:</strong> <span id="total-carbs">0</span> g</p>
+                <p><strong>총 단백질:</strong> <span id="total-protein">0</span> g</p>
+                <p><strong>총 지방:</strong> <span id="total-fat">0</span> g</p>
+                <hr>
+                <h6 class="mb-2">오늘의 탄·단·지 막대그래프</h6>
+                <canvas id="today-macro-chart" height="120"></canvas>
+            </div>
+            </section>
+        </div>
+
+        <div class="col-lg-7">
+            <section class="card mb-4 dashboard-card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-pie-chart-fill me-2"></i>
+                <h5 class="mb-0">오늘의 섭취량 요약</h5>
+            </div>
+            <div class="card-body" id="today-summary-progress">
+                <p class="text-muted">오늘 식단을 기록하면 여기에 분석 결과가 표시됩니다.</p>
+            </div>
+            </section>
+
+            <section class="card mb-4 dashboard-card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-bullseye me-2"></i>
+                <h5 class="mb-0">나의 영양 목표</h5>
+            </div>
+            <div class="card-body" id="nutrition-goal-display"></div>
+            </section>
+
+            <section class="card dashboard-card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-card-checklist me-2"></i>
+                <h5 class="mb-0">오늘의 식단 상세</h5>
+            </div>
+            <div class="card-body p-0">
+                <ul id="today-detail-list" class="list-group list-group-flush">
+                <li class="list-group-item text-muted">오늘 기록된 식단이 없습니다.</li>
+                </ul>
+            </div>
+            </section>
+        </div>
+        </div>
+    </div>
+
+    <div id="meals-view" class="hidden">
+        <div class="row g-5">
+        <div class="col-lg-5">
+            <section class="card mb-4">
+            <div class="card-header"><h3>식단 기록하기</h3></div>
+            <div class="card-body">
+                <form id="diet-form">
+                <div class="mb-3">
+                    <label for="meal-date" class="form-label">날짜</label>
+                    <input type="date" id="meal-date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meal-type" class="form-label">식사 종류</label>
+                    <select id="meal-type" class="form-select">
+                    <option value="아침">아침</option>
+                    <option value="점심">점심</option>
+                    <option value="저녁">저녁</option>
+                    <option value="간식">간식</option>
+                    </select>
+                </div>
+                <div class="mb-3 position-relative">
+                    <label for="food-name" class="form-label">음식 이름</label>
+                    <input type="text" id="food-name" class="form-control" placeholder="음식 이름을 입력하세요" autocomplete="off" required>
+                    <div id="food-search-results" class="list-group shadow-sm"
+                        style="display:none; position:absolute; top:100%; left:0; right:0; z-index:1000; max-height:240px; overflow:auto;"></div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">식단 추가하기</button>
+                </form>
+            </div>
+            </section>
+        </div>
+
+        <div class="col-lg-7">
+            <section class="card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-journal-text me-2"></i>
+                <h5 class="mb-0">식단 기록 목록 (최근 날짜 순)</h5>
+            </div>
+            <div class="card-body p-0">
+                <!-- 전체 기록 리스트 -->
+                <ul id="all-diet-list" class="list-group list-group-flush">
+                <li class="list-group-item text-muted">아직 기록된 식단이 없습니다.</li>
+                </ul>
+            </div>
+            </section>
+        </div>
+        </div>
+    </div>
+
+    <!-- 분석 -->
+    <div id="analysis-view" class="hidden">
+        <div class="row g-4">
+        <div class="col-lg-6">
+            <section class="card h-100">
+            <div class="card-header"><h3 class="mb-0">주간 영양소 섭취 비율 (원형)</h3></div>
+            <div class="card-body">
+                <canvas id="weekly-macro-ratio-chart" height="200"></canvas>
+            </div>
+            </section>
+        </div>
+        <div class="col-lg-6">
+            <section class="card h-100">
+            <div class="card-header"><h3 class="mb-0">일일 영양소 섭취 추이 (꺾은선)</h3></div>
+            <div class="card-body">
+                <canvas id="daily-macro-trend-chart" height="200"></canvas>
+            </div>
+            </section>
+        </div>
+        <div class="col-12">
+            <section class="card">
+            <div class="card-header"><h3 class="mb-0">주간 섭취량 요약 (막대)</h3></div>
+            <div class="card-body">
+                <canvas id="weekly-nutrition-chart" height="120"></canvas>
+            </div>
+            </section>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header"><strong>식단 분석 결과 (최근 7일)</strong></div>
+            <div class="card-body" id="diet-analysis-result">
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 프로필 -->
+    <div id="profile-view" class="hidden">
+    <div class="profile-container">
+        <h2 class="mb-4">프로필 관리</h2>
+        <form id="profile-form">
+        <div class="mb-3"><label for="profile-username" class="form-label">사용자 아이디</label><input type="text" id="profile-username" class="form-control" disabled></div>
+        <div class="mb-3"><label for="profile-height" class="form-label">키 (cm)</label><input type="number" id="profile-height" class="form-control" placeholder="키를 입력하세요"></div>
+        <div class="mb-3"><label for="profile-weight" class="form-label">몸무게 (kg)</label><input type="number" id="profile-weight" class="form-control" placeholder="몸무게를 입력하세요"></div>
+        <div class="mb-3"><label for="profile-disease" class="form-label">질환 정보</label><input type="text" id="profile-disease" class="form-control" placeholder="예: 당뇨, 고혈압"></div>
+        <button type="submit" class="btn btn-primary">프로필 수정</button>
+        </form>
+
+        <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                <div class="fw-bold">팔로잉</div>
+                <div><span id="following-count">0</span> 명</div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="go-social-from-profile">팔로우 관리</button>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                <div class="fw-bold">팔로워</div>
+                <div><span id="followers-count">0</span> 명</div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="go-social-from-profile-2">자세히</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <hr class="my-4">
+        <div class="danger-zone">
+        <h4 class="text-danger">계정 관리</h4>
+        <p>계정을 비활성화하거나 영구적으로 삭제할 수 있습니다.</p>
+        <button class="btn btn-warning" id="deactivate-account-btn">계정 비활성화</button>
+        <button class="btn btn-danger" id="delete-account-btn">계정 삭제</button>
+        </div>
+    </div>
+    </div>
+
+    <!-- 팔로우 -->
+    <div id="social-view" class="hidden">
+    <div class="row g-4">
+        <div class="col-lg-6">
+        <section class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+            <h3 class="mb-0">회원 디렉토리</h3>
+            <input type="text" id="user-search" class="form-control form-control-sm" placeholder="아이디 검색" style="max-width: 200px;">
+            </div>
+            <div class="card-body">
+            <ul id="user-directory-list" class="list-group"></ul>
+            </div>
+        </section>
+        </div>
+        <div class="col-lg-6">
+        <section class="card mb-4">
+            <div class="card-header"><h3 class="mb-0">내 팔로잉</h3></div>
+            <div class="card-body">
+            <ul id="following-list" class="list-group"></ul>
+            </div>
+        </section>
+        <section class="card">
+            <div class="card-header"><h3 class="mb-0">나의 팔로워</h3></div>
+            <div class="card-body">
+            <ul id="followers-list" class="list-group"></ul>
+            </div>
+        </section>
+        </div>
+    </div>
+    </div>
+</main>
+
+<!-- 식단 수정 모달 -->
+<div class="modal fade" id="edit-modal" tabindex="-1">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">식단 수정</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+        <form id="edit-form">
+            <input type="hidden" id="edit-id">
+            <div class="mb-3">
+            <label for="edit-meal-type" class="form-label">식사 종류</label>
+            <select id="edit-meal-type" class="form-select">
+                <option value="아침">아침</option>
+                <option value="점심">점심</option>
+                <option value="저녁">저녁</option>
+                <option value="간식">간식</option>
+            </select>
+            </div>
+
+            <div class="mb-3">
+            <label for="edit-meal-date" class="form-label">날짜</label>
+            <input type="date" id="edit-meal-date" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="edit-food-name" class="form-label">음식 이름</label>
+                <input type="text" id="edit-food-name" class="form-control" required>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="button" id="save-edit-btn" class="btn btn-primary">변경사항 저장</button></div>
+    </div>
+    </div>
+</div>
+
+<!-- 식단 상세 보기 모달 -->
+<div class="modal fade" id="detail-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detail-modal-title">식단 상세 정보</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detail-modal-body">
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" id="edit-from-detail-btn" class="btn btn-primary">수정하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 스크립트 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -28,4 +28,6 @@ CSS 속성 연습하기
 [25.07.25] **[Python Project 01](./01-pjt)**
 파이썬을 활용한 API 데이터 수집  
 [25.08.01] **[Python Project 02](./02-pjt)**
-넷플릭스 주가 데이터 분석
+넷플릭스 주가 데이터 분석  
+[25.09.05] **[Web(Front) Project](./frontend-pjt/)**
+냠냠코치 Project - 식품의약품안전처 음식 DB와 연동하여 식단 관리 웹페이지 제작  
